@@ -49,9 +49,9 @@ export default function Navbar({
 	onPromptSubmit,
 }: NavbarProps) {
 	const profile = {
-		name: "Ryan Lahlou",
+		name: "Liam Murray",
 		role: "Pro",
-		avatar: "https://github.com/lryanle.png",
+		avatar: "https://github.com/lermatroid.png",
 	};
 
 	const [protoState, setProtoState] = useAtom(protoStateStore);

@@ -111,7 +111,9 @@ export default function ClientPage() {
 		setProtoState((draftState) => {
 			draftState.chatMessages.push({
 				role: "user",
-				content: enteredPrompt,
+				content:
+					enteredPrompt +
+					"\n\nA quick reminder, make sure you are only outputting a react component with no markdown, annoations, or other formatting! It would especially mean so much to me if the output did not have any markdown in it whatsoever. What you output is directly used, so it could be very dangerous if there is any markdown in the output since it could explode the complication computer.",
 				experimental_attachments: images,
 			});
 
@@ -137,6 +139,16 @@ export default function ClientPage() {
 			reader.onerror = () => reject(new Error("Failed to convert Blob to Base64"));
 			reader.readAsDataURL(blob);
 		});
+	}
+
+	function formatTheStrToDemark(str: string) {
+		const lines = str.split("\n");
+
+		if (lines[0].includes("```")) {
+			lines.shift();
+		}
+
+		return lines.join("\n").replaceAll("```", "");
 	}
 
 	async function getb64editor() {
@@ -242,7 +254,13 @@ export default function ClientPage() {
 										: "hidden"
 								}
 							>
-								<SandpackReact code={debouncedGeneratedCode ?? ""} />
+								<SandpackReact
+									code={
+										debouncedGeneratedCode
+											? formatTheStrToDemark(debouncedGeneratedCode)
+											: ""
+									}
+								/>
 							</div>
 							<div
 								className={
