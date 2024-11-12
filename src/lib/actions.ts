@@ -8,14 +8,13 @@ import { createClient } from "@/lib/supabase/server";
 export async function login(formData: FormData) {
 	const supabase = await createClient();
 
-	// type-casting here for convenience
 	// in practice, you should validate your inputs
-	const data = {
+	const loginData = {
 		email: formData.get("email") as string,
 		password: formData.get("password") as string,
 	};
 
-	const { error, data } = await supabase.auth.signInWithPassword(data);
+	const { error } = await supabase.auth.signInWithPassword(loginData);
 
 	if (error) {
 		redirect("/error");
@@ -29,14 +28,13 @@ export async function login(formData: FormData) {
 export async function signup(formData: FormData) {
 	const supabase = await createClient();
 
-	// type-casting here for convenience
 	// in practice, you should validate your inputs
-	const data = {
+	const signupData = {
 		email: formData.get("email") as string,
 		password: formData.get("password") as string,
 	};
 
-	const { error } = await supabase.auth.signUp(data);
+	const { error } = await supabase.auth.signUp(signupData);
 
 	if (error) {
 		redirect("/error");
